@@ -42,12 +42,10 @@ export const addJob = data => (dispatch, getState) => {
   fetch('/api/jobs/', options)
     .then(res => res.json())
     .then(job => dispatch({
-      type: actionTypes.JOBS_ADD_SUCCESS,
+      type: actionTypes.JOB_ADD_SUCCESS,
       payload: job
     }))
-    .catch(err => {
-      return dispatch({ type: actionTypes.JOB_ADD_FAILURE })
-    });
+    .catch(err => dispatch({ type: actionTypes.JOB_ADD_FAILURE }));
 };
 
 export const deleteJob = jobId => (dispatch, getState) => {

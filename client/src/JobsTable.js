@@ -13,6 +13,7 @@ class JobsTable extends Component {
           <thead>
             <tr>
               <th>topic</th>
+              <th>subscriptions</th>
               <th>message</th>
               <th>time</th>
               <th />
@@ -20,10 +21,11 @@ class JobsTable extends Component {
           </thead>
           <tbody>
             {jobs.map(job =>
-              <tr key={job._id}>
-                <td>{job.data.topic}</td>
-                <td>{job.data.message}</td>
-                <td>{moment(job.data.time).format('lll')}</td>
+              <tr key={job.id}>
+                <td>{job.topic.name}</td>
+                <td>{job.topic.subscriptions}</td>
+                <td>{job.message}</td>
+                <td>{moment(job.time).format('lll')}</td>
                 <td>
                   <button
                     onClick={() => deleteJob(job._id)}

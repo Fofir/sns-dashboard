@@ -48,8 +48,8 @@ class JobForm extends Component {
             validate={validators.required}
           >
             <option>{topicsLoading ? 'Loading...' : 'Choose a topic'}</option>
-            {topics.map(({ topicArn, name }) => 
-              <option key={topicArn} value={topicArn}>{name}</option>
+            {topics.map(({ topicArn, name }, i) => 
+              <option key={i} value={topicArn}>{name}</option>
             )}
           </Field>
           {!pristine && errors.topic && <span className="help-block">{errors.topic}</span>}

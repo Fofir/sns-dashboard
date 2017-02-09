@@ -1,12 +1,7 @@
 import { combineReducers } from 'redux';
 import { reducer as formReducer } from 'redux-form'
 import actionTypes from './constants/actionTypes';
-
-const mapById = (arr = []) => {
-  return arr.reduce((curr, item) => {
-    return { ...curr, [item._id]: item };
-  }, {});
-}
+import { mapByField } from './utils/helpers';
 
 const topicsActionMap = {
   [actionTypes.TOPICS_FETCH_REQUEST]: (state, action) => {
@@ -19,7 +14,7 @@ const topicsActionMap = {
     return {
       ...state,
       loading: false,
-      data: action.payload
+      data: mapByField(action.payload, 'topicArn')
     };
   },
   [actionTypes.TOPICS_FETCH_FAILURE]: (state, action) => {
@@ -38,7 +33,7 @@ const jobsActionMap = {
     return {
       ...state,
       loading: false,
-      data: mapById(action.payload)
+      data: mapByField(action.payload)
     };
   },
   [actionTypes.JOBS_FETCH_FAILURE]: (state, action) => {
@@ -72,7 +67,7 @@ const jobs = (state = { loading: false, data: {} }, action) => {
   return state;
 };
 
-const topics = (state = { loading: false, data: [] }, action) => {
+const topics = (state = { loading: false, data: {} }, action) => {
   if (topicsActionMap[action.type]) {
     return topicsActionMap[action.type](state, action);
   }

@@ -52,9 +52,23 @@ App.propTypes = {
   formErrors: PropTypes.object.isRequired
 };
 
+const jobsSelector = state => {
+  const {
+    jobs: { data: jobs },
+    topics: { data: topics }
+  } = state;
+
+  return Object.keys(jobs).map(id => {
+    const job = jobs[id];
+    const topicData = topics[job.data.topic];
+
+    return { id, ...job.data, topic: topicData || {}}
+  })
+}
+
 const mapStateToProps = state => ({
-  jobs: Object.keys(state.jobs.data).map(id => state.jobs.data[id]),
-  topics: state.topics.data,
+  jobs: jobsSelector(state),
+  topics: Object.keys(state.topics.data).map(id => state.topics.data[id]),
   topicsLoading: state.topics.loading,
   formErrors: getFormSyncErrors('addJob')(state)
 });

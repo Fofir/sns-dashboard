@@ -1,4 +1,4 @@
-const mongodb = require('agenda/node_modules/mongodb');
+const objectid = require('objectid')
 const AWS = require('aws-sdk');
 const Promise = require('bluebird');
 const AGENDA_NAME = require('../constants').AGENDA_NAME;
@@ -30,7 +30,7 @@ module.exports = (agenda) => ({
 
   // Deletes a job using Agenda
   deleteJob: (req, res) => {
-    const _id = mongodb.ObjectID(req.params.id);
+    const _id = objectid(req.params.id);
     agenda.jobs({ _id }, (err, jobs) => {
       if (!jobs || !jobs.length) {
         return res.send('Not found');

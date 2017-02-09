@@ -30,6 +30,7 @@
     "express": "^4.14.1",
     "express-validation": "^1.0.1",
     "joi": "^9.2.0",
-    "joi-objectid": "^2.0.0"
+    "joi-objectid": "^2.0.0",
+    "objectid": "^3.2.1"
   }
 }

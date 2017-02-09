@@ -1,4 +1,5 @@
 import React, { Component, PropTypes } from 'react';
+import moment from 'moment';
 
 class JobsTable extends Component {
   componentDidMount() {
@@ -22,7 +23,7 @@ class JobsTable extends Component {
               <tr key={job._id}>
                 <td>{job.data.topic}</td>
                 <td>{job.data.message}</td>
-                <td>{job.data.time}</td>
+                <td>{moment(job.data.time).format('lll')}</td>
                 <td>
                   <button
                     onClick={() => deleteJob(job._id)}

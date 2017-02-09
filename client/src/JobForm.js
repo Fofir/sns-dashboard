@@ -7,12 +7,24 @@ const TimePickerInput = props => <Datetime {...props.input} />;
 
 class JobForm extends Component {
   render() {
-    const { handleSubmit, topics, topicsLoading } = this.props;
+    const {
+      handleSubmit,
+      topics,
+      topicsLoading,
+      pristine,
+      invalid
+    } = this.props;
+    
     return (
       <form onSubmit={handleSubmit(this.props.addJob)}>
         <div className="form-group">
           <label htmlFor="message">Message</label>
-          <Field name="message" className="form-control" component="textarea" type="text"/>
+          <Field
+            name="message"
+            className="form-control"
+            component="textarea"
+            type="text"
+          />
         </div>
         <div className="form-group">
           <label htmlFor="time">Time</label>
@@ -20,14 +32,25 @@ class JobForm extends Component {
         </div>
         <div className="form-group">
           <label htmlFor="topic">Topic</label>
-          <Field disabled={topicsLoading} name="favoriteColor" className="form-control" component="select">
+          <Field
+            disabled={topicsLoading}
+            name="topic"
+            className="form-control"
+            component="select"
+          >
             <option>{topicsLoading ? 'Loading...' : 'Choose a topic'}</option>
             {topics.map(({TopicArn}) => 
               <option key={TopicArn} value={TopicArn}>{TopicArn}</option>
             )}
           </Field>
         </div>
-        <button type="submit" className="btn btn-default">Submit</button>
+        <button
+          disabled={pristine || invalid}
+          type="submit"
+          className="btn btn-default"
+        >
+          Submit
+        </button>
       </form>
     )
   }

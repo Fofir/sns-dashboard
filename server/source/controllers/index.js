@@ -17,8 +17,9 @@ module.exports = (agenda) => ({
 
 	// Creates a job 
 	createJob: (req, res) => {
-  	const job = agenda.schedule('in 2 seconds', AGENDA_NAME, req.body);
-     return res.json({ message: 'Job created succesfully', job });
+		const time = req.body.time;
+  	const job = agenda.schedule(time, AGENDA_NAME, req.body);
+    return res.json({ message: 'Job created succesfully', job });
 	},
 
 	// Deletes a job using Agenda

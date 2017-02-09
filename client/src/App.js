@@ -36,11 +36,14 @@ class App extends Component {
         <div className="row">
           <div className="col-md-12">
             <h2>Jobs</h2>
-            <JobsTable 
-              jobs={this.props.jobs}
-              fetchJobs={this.props.fetchJobs}
-              deleteJob={this.props.deleteJob}
-            />
+            {this.props.topicsLoading
+              ? <span>Loading...</span>
+              : <JobsTable 
+                  jobs={this.props.jobs}
+                  fetchJobs={this.props.fetchJobs}
+                  deleteJob={this.props.deleteJob}
+                />
+            }
           </div>
         </div>
       </div>

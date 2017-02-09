@@ -59,6 +59,7 @@ module.exports = (agenda) => ({
           .promise()
           .then(res => res.Attributes)
           .then(attributes => ({
+            name: attributes.DisplayName,
             topicArn: attributes.TopicArn,
             subscriptions: attributes.SubscriptionsConfirmed
           }));
@@ -67,6 +68,6 @@ module.exports = (agenda) => ({
 
     return getTopics()
       .then(extendTopicsWithSubscribers)
-      .then(topics => res.json(topics));
+      .then(topics => res.json(topics))
   }
 })

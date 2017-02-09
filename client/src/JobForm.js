@@ -1,9 +1,14 @@
 import React, { Component, PropTypes } from 'react';
 import { Field, reduxForm, propTypes as formPropTypes } from 'redux-form';
+import moment from 'moment';
 import Datetime from 'react-datetime';
 import 'react-datetime/css/react-datetime.css';
 
-const TimePickerInput = props => <Datetime {...props.input} />;
+const isValidDate = current => current.isAfter(moment().subtract(1, 'day'));
+
+const TimePickerInput = props => (
+  <Datetime isValidDate={isValidDate} {...props.input} />
+);
 
 class JobForm extends Component {
   render() {

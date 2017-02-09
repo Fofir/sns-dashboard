@@ -13,18 +13,29 @@ class App extends Component {
   render() {
     return (
       <div className="container">
+        <div class="page-header">
+          <h1>Amazon SNS dashboard</h1>
+        </div>
         <div className="row">
           <div className="col-md-12">
-            <JobForm
-              addJob={this.props.addJob}
-              topics={this.props.topics}
-              topicsLoading={this.props.topicsLoading}
-              errors={this.props.formErrors}
-            />
+            <div className="panel panel-default">
+              <div className="panel-heading">
+                <h3 className="panel-title">Create a new job!</h3>
+              </div>
+              <div className="panel-body">
+                <JobForm
+                  addJob={this.props.addJob}
+                  topics={this.props.topics}
+                  topicsLoading={this.props.topicsLoading}
+                  errors={this.props.formErrors}
+                />
+              </div>
+            </div>
           </div>
         </div>
         <div className="row">
           <div className="col-md-12">
+            <h2>Jobs</h2>
             <JobsTable 
               jobs={this.props.jobs}
               fetchJobs={this.props.fetchJobs}

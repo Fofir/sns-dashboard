@@ -2,11 +2,15 @@ require('dotenv').config();
 const express = require('express');
 const app = express();
 const bodyParser = require('body-parser');
-const mongoose = require('mongoose');
-const controllers = require('./source/controllers');
+const validate = require('express-validation');
+const Agenda = require('agenda');
+const agenda = new Agenda({db: {address: process.env.DB_URI}});
+const controllers = require('./source/controllers')(agenda);
+const processors = require('./source/processors');
+const schemas = require('./source/schemas');
+const AGENDA_NAME = require('./source/constants').AGENDA_NAME;
 
-// @TODO: Add error handling for failed connection
-mongoose.connect(process.env.DB_URI);
+agenda.define(AGENDA_NAME, processors[AGENDA_NAME].options, processors[AGENDA_NAME].handler);
 
 app.use(bodyParser.urlencoded({ extended: true }));
 app.use(bodyParser.json());
@@ -20,12 +24,22 @@ apiRouter.route('/topics')
 
 apiRouter.route('/jobs')
   .get(controllers.listJobs)
-  .post(controllers.createJob);
+  .post(
+    validate(schemas.createJob),
+    controllers.createJob
+  );
 
 apiRouter.route('/jobs/:id')
-  .delete(controllers.deleteJob);
+  .delete(
+    validate(schemas.deleteJob),
+    controllers.deleteJob
+  );
 
 app.use('/api', apiRouter);
 
-app.listen(port);
+agenda.on('ready', () => {
+  agenda.start();
+  app.listen(port);
+});
+
 console.log('connected on ' + port);

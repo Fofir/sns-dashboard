@@ -4,6 +4,8 @@ const app = express();
 const bodyParser = require('body-parser');
 const mongoose = require('mongoose');
 const controllers = require('./source/controllers');
+const AWS = require('aws-sdk');
+AWS.config.update({region: process.env.AWS_REGION});
 
 // @TODO: Add error handling for failed connection
 mongoose.connect(process.env.DB_URI);

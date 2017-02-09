@@ -5,7 +5,8 @@ module.exports = {
 	createJob: {
 		body: {
 			time: Joi.date().required(),
-			topic: Joi.string().required()
+			topic: Joi.string().required().trim(),
+			message: Joi.string().required()
 		}
 	},
 	deleteJob: {

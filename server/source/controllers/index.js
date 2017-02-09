@@ -1,7 +1,7 @@
 const mongodb = require('agenda/node_modules/mongodb');
 const AWS = require('aws-sdk');
-AWS.config.update({region: process.env.AWS_REGION});
 const AGENDA_NAME = require('../constants').AGENDA_NAME;
+const sns = new AWS.SNS();
 
 module.exports = (agenda) => ({
 	// lists all jobs
@@ -45,7 +45,6 @@ module.exports = (agenda) => ({
 
 	// Gets all user topics from AWS
 	getTopics: (req, res) => {
-		const sns = new AWS.SNS();
 		sns.listTopics({}, function(err, data) {
   		if (err) {
   			return res.send(err);

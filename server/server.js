@@ -41,6 +41,11 @@ apiRouter.route('/jobs/:id')
 
 app.use('/api', apiRouter);
 
+// Express only serves static assets in production
+if (process.env.NODE_ENV === 'production') {
+  app.use(express.static('client/build'));
+}
+
 agenda.on('ready', () => {
   agenda.start();
   app.listen(port);

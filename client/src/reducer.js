@@ -50,9 +50,17 @@ const jobsActionMap = {
     return newState
   },
   // [actionTypes.JOB_DELETE_FAILURE]: (state, action) => state,
-  [actionTypes.JOB_ADD_REQUEST]: (state, action) => state,
-  [actionTypes.JOB_ADD_SUCCESS]: (state, action) => state,
-  [actionTypes.JOB_ADD_FAILURE]: (state, action) => state
+  // [actionTypes.JOB_ADD_REQUEST]: (state, action) => state,
+  [actionTypes.JOB_ADD_SUCCESS]: (state, action) => {
+    return {
+      ...state,
+      data: {
+        ...state.data,
+        [action.payload._id]: action.payload
+      }
+    }
+  },
+  // [actionTypes.JOB_ADD_FAILURE]: (state, action) => state
 };
 
 const jobs = (state = { loading: false, data: {} }, action) => {

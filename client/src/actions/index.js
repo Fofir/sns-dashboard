@@ -28,6 +28,26 @@ export const fetchJobs = () => (dispatch, getState) => {
     .catch(err => dispatch({ type: actionTypes.JOBS_FETCH_FAILURE }))
 };
 
+export const addJob = data => (dispatch, getState) => {
+  dispatch({ type: actionTypes.JOB_ADD_REQUEST });
+  const body = JSON.stringify(data);
+  const options = {
+    headers: {
+      'Content-Type': 'application/json'
+    },
+    body,
+    method: 'POST'
+  };
+
+  fetch('/api/jobs/', options)
+    .then(res => res.json())
+    .then(job => dispatch({
+      type: actionTypes.JOBS_ADD_SUCCESS,
+      payload: job
+    }))
+    .catch(err => dispatch({ type: actionTypes.JOB_ADD_FAILURE }))
+};
+
 export const deleteJob = jobId => (dispatch, getState) => {
   dispatch({ type: actionTypes.JOB_DELETE_REQUEST });
 

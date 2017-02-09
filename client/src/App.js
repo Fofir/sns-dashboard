@@ -1,7 +1,12 @@
-import React, { Component } from 'react';
-import {connect} from 'react-redux'
+import React, { Component, PropTypes } from 'react';
+import { connect } from 'react-redux'
+import * as actions from './actions';
 
 class App extends Component {
+  componentDidMount() {
+    this.props.fetchTopics();
+  }
+
   render() {
     return (
       <div>
@@ -11,6 +16,15 @@ class App extends Component {
   }
 }
 
-const mapStateToProps = state => state;
+App.propTypes = {
+  fetchTopics: PropTypes.func.isRequired,
+  jobs: PropTypes.array.isRequired,
+  topics: PropTypes.array.isRequired
+};
 
-export default connect(mapStateToProps)(App);
+const mapStateToProps = state => ({
+  jobs: state.jobs.data,
+  topics: state.topics.data
+});
+
+export default connect(mapStateToProps, actions)(App);

@@ -1,10 +1,32 @@
 import { combineReducers } from 'redux';
-// import ActionTypes from 'constants/ActionTypes';
+import actionTypes from './constants/actionTypes';
 
-const actionMap = {};
+const actionMap = {
+  [actionTypes.TOPICS_FETCH_REQUEST]: (state, action) => {
+    return {
+      ...state,
+      loading: true
+    };
+  },
+  [actionTypes.TOPICS_FETCH_SUCCESS]: (state, action) => {
+    return {
+      ...state,
+      loading: false,
+      data: action.payload
+    };
+  },
+  [actionTypes.TOPICS_FETCH_FAILURE]: (state, action) => {
+    return { ...state, loading: false };
+  },
+  [actionTypes.JOB_DELETE_REQUEST]: (state, action) => state,
+  [actionTypes.JOB_DELETE_SUCCESS]: (state, action) => state,
+  [actionTypes.JOB_DELETE_FAILURE]: (state, action) => state,
+  [actionTypes.JOB_ADD_REQUEST]: (state, action) => state,
+  [actionTypes.JOB_ADD_SUCCESS]: (state, action) => state,
+  [actionTypes.JOB_ADD_FAILURE]: (state, action) => state
+};
 
-const myReducer = (state = {}, action) => {
-
+const jobs = (state = { loading: false, data: {} }, action) => {
   if (actionMap[action.type]) {
     return actionMap[action.type](state, action);
   }
@@ -12,8 +34,17 @@ const myReducer = (state = {}, action) => {
   return state;
 };
 
+const topics = (state = { loading: false, data: [] }, action) => {
+  if (actionMap[action.type]) {
+    return actionMap[action.type](state, action);
+  }
+
+  return state; 
+}
+
 const rootReducer = combineReducers({
-    myReducer
+    jobs,
+    topics
 });
 
 export default rootReducer;

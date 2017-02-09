@@ -1,7 +1,8 @@
 const mongodb = require('agenda/node_modules/mongodb');
 const AWS = require('aws-sdk');
+const Promise = require('bluebird');
 const AGENDA_NAME = require('../constants').AGENDA_NAME;
-const sns = new AWS.SNS();
+var sns = new AWS.SNS();
 
 module.exports = (agenda) => ({
   // lists all jobs
@@ -49,12 +50,23 @@ module.exports = (agenda) => ({
 
   // Gets all user topics from AWS
   getTopics: (req, res) => {
-    sns.listTopics({}, function(err, data) {
-      if (err) {
-        return res.send(err);
-      }
+    const getTopics = () => sns.listTopics({}).promise()
+      .then(res => res.Topics);
 
-      return res.json(data.Topics);
-    });
+    const extendTopicsWithSubscribers = (topics) => {
+      return Promise.map(topics, topic => {
+        return sns.getTopicAttributes({ TopicArn: topic.TopicArn })
+          .promise()
+          .then(res => res.Attributes)
+          .then(attributes => ({
+            topicArn: attributes.TopicArn,
+            subscriptions: attributes.SubscriptionsConfirmed
+          }));
+      });
+    };
+
+    return getTopics()
+      .then(extendTopicsWithSubscribers)
+      .then(topics => res.json(topics));
   }
 })

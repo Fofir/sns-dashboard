@@ -12,6 +12,7 @@ const schemas = require('./source/schemas');
 const AGENDA_NAME = require('./source/constants').AGENDA_NAME;
 
 AWS.config.update({ region: process.env.AWS_REGION });
+AWS.config.setPromisesDependency(require('bluebird'));
 
 agenda.define(AGENDA_NAME, processors[AGENDA_NAME].options, processors[AGENDA_NAME].handler);
 

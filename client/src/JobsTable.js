@@ -28,7 +28,7 @@ class JobsTable extends Component {
                 <td>{moment(job.time).format('lll')}</td>
                 <td>
                   <button
-                    onClick={() => deleteJob(job._id)}
+                    onClick={() => deleteJob(job.id)}
                     className="btn btn-xs btn-danger"
                   >
                     delete job

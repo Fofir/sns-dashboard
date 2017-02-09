@@ -5,7 +5,7 @@
   "main": "index.js",
   "scripts": {
     "test": "echo \"Error: no test specified\" && exit 1",
-    "setup": "npm install && cd client && npm install",
+    "setup": " cp .env-example .env && npm install && cd client && npm install",
     "start": "npm run build-client && node server/server.js",
     "dev": "nodemon server/server.js",
     "build-client": "cd client && npm run build"

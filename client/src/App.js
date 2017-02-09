@@ -1,6 +1,7 @@
 import React, { Component, PropTypes } from 'react';
 import { connect } from 'react-redux'
 import * as actions from './actions';
+import { getFormSyncErrors } from 'redux-form';
 import JobsTable from './JobsTable';
 import JobForm from './JobForm';
 
@@ -18,6 +19,7 @@ class App extends Component {
               addJob={this.props.addJob}
               topics={this.props.topics}
               topicsLoading={this.props.topicsLoading}
+              errors={this.props.formErrors}
             />
           </div>
         </div>
@@ -35,6 +37,10 @@ class App extends Component {
   }
 }
 
+App.defaultProps = {
+  formErrors: {}
+};
+
 App.propTypes = {
   fetchTopics: PropTypes.func.isRequired,
   fetchJobs: PropTypes.func.isRequired,
@@ -42,13 +48,15 @@ App.propTypes = {
   deleteJob: PropTypes.func.isRequired,
   jobs: PropTypes.array.isRequired,
   topics: PropTypes.array.isRequired,
-  topicsLoading: PropTypes.bool.isRequired
+  topicsLoading: PropTypes.bool.isRequired,
+  formErrors: PropTypes.object.isRequired
 };
 
 const mapStateToProps = state => ({
   jobs: Object.keys(state.jobs.data).map(id => state.jobs.data[id]),
   topics: state.topics.data,
-  topicsLoading: state.topics.loading
+  topicsLoading: state.topics.loading,
+  formErrors: getFormSyncErrors('addJob')(state)
 });
 
 export default connect(mapStateToProps, actions)(App);

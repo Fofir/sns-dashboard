@@ -44,8 +44,12 @@ const jobsActionMap = {
     return { ...state, loading: false };
   },
   [actionTypes.JOB_DELETE_REQUEST]: (state, action) => state,
-  [actionTypes.JOB_DELETE_SUCCESS]: (state, action) => state,
-  [actionTypes.JOB_DELETE_FAILURE]: (state, action) => state,
+  [actionTypes.JOB_DELETE_SUCCESS]: (state, action) => {
+    const newState = { ...state };
+    delete newState.data[action.payload];
+    return newState
+  },
+  // [actionTypes.JOB_DELETE_FAILURE]: (state, action) => state,
   [actionTypes.JOB_ADD_REQUEST]: (state, action) => state,
   [actionTypes.JOB_ADD_SUCCESS]: (state, action) => state,
   [actionTypes.JOB_ADD_FAILURE]: (state, action) => state

@@ -14,7 +14,7 @@ export const fetchTopics = () => (dispatch, getState) => {
       payload: Topics
     }))
     .catch(err => dispatch({ type: actionTypes.TOPICS_FETCH_FAILURE }))
-}
+};
 
 export const fetchJobs = () => (dispatch, getState) => {
   dispatch({ type: actionTypes.JOBS_FETCH_REQUEST });
@@ -26,4 +26,12 @@ export const fetchJobs = () => (dispatch, getState) => {
       payload: jobs
     }))
     .catch(err => dispatch({ type: actionTypes.JOBS_FETCH_FAILURE }))
-}
+};
+
+export const deleteJob = jobId => (dispatch, getState) => {
+  dispatch({ type: actionTypes.JOB_DELETE_REQUEST });
+
+  fetch(`/api/jobs/${jobId}`, { method: 'DELETE' })
+    .then(res => dispatch({ type: actionTypes.JOB_DELETE_SUCCESS, payload: jobId }))
+    .catch(err => dispatch({ type: actionTypes.JOB_DELETE_FAILURE }))
+};

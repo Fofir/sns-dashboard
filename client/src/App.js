@@ -16,6 +16,7 @@ class App extends Component {
             <JobsTable 
               jobs={this.props.jobs}
               fetchJobs={this.props.fetchJobs}
+              deleteJob={this.props.deleteJob}
             />
           </div>
         </div>
@@ -27,6 +28,7 @@ class App extends Component {
 App.propTypes = {
   fetchTopics: PropTypes.func.isRequired,
   fetchJobs: PropTypes.func.isRequired,
+  deleteJob: PropTypes.func.isRequired,
   jobs: PropTypes.array.isRequired,
   topics: PropTypes.array.isRequired
 };

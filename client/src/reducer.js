@@ -1,4 +1,5 @@
 import { combineReducers } from 'redux';
+import { reducer as formReducer } from 'redux-form'
 import actionTypes from './constants/actionTypes';
 
 const mapById = (arr = []) => {
@@ -81,7 +82,8 @@ const topics = (state = { loading: false, data: [] }, action) => {
 
 const rootReducer = combineReducers({
     jobs,
-    topics
+    topics,
+    form: formReducer
 });
 
 export default rootReducer;

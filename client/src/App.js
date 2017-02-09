@@ -2,6 +2,7 @@ import React, { Component, PropTypes } from 'react';
 import { connect } from 'react-redux'
 import * as actions from './actions';
 import JobsTable from './JobsTable';
+import JobForm from './JobForm';
 
 class App extends Component {
   componentDidMount() {
@@ -11,6 +12,14 @@ class App extends Component {
   render() {
     return (
       <div className="container">
+        <div className="row">
+          <div className="col-md-12">
+            <JobForm
+              addJob={this.props.addJob}
+              topics={this.props.topics}
+            />
+          </div>
+        </div>
         <div className="row">
           <div className="col-md-12">
             <JobsTable 
@@ -28,6 +37,7 @@ class App extends Component {
 App.propTypes = {
   fetchTopics: PropTypes.func.isRequired,
   fetchJobs: PropTypes.func.isRequired,
+  addJob: PropTypes.func.isRequired,
   deleteJob: PropTypes.func.isRequired,
   jobs: PropTypes.array.isRequired,
   topics: PropTypes.array.isRequired

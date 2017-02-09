@@ -1,18 +1,13 @@
 import React, { Component, PropTypes } from 'react';
-import { Field, reduxForm } from 'redux-form';
+import { Field, reduxForm, propTypes as formPropTypes } from 'redux-form';
 import Datetime from 'react-datetime';
 import 'react-datetime/css/react-datetime.css';
 
-const TimePickerInput = props => (
-  <Datetime {...props.input} />
-);
-
-TimePickerInput.propTypes = {
-};
+const TimePickerInput = props => <Datetime {...props.input} />;
 
 class JobForm extends Component {
   render() {
-    const { handleSubmit } = this.props;
+    const { handleSubmit, topics, topicsLoading } = this.props;
     return (
       <form onSubmit={handleSubmit(this.props.addJob)}>
         <div className="form-group">
@@ -25,7 +20,12 @@ class JobForm extends Component {
         </div>
         <div className="form-group">
           <label htmlFor="topic">Topic</label>
-          <Field name="topic" className="form-control" component="input" type="text"/>
+          <Field disabled={topicsLoading} name="favoriteColor" className="form-control" component="select">
+            <option>{topicsLoading ? 'Loading...' : 'Choose a topic'}</option>
+            {topics.map(({TopicArn}) => 
+              <option key={TopicArn} value={TopicArn}>{TopicArn}</option>
+            )}
+          </Field>
         </div>
         <button type="submit" className="btn btn-default">Submit</button>
       </form>
@@ -35,7 +35,8 @@ class JobForm extends Component {
 
 JobForm.propTypes = {
   addJob: PropTypes.func.isRequired,
-  topics: PropTypes.array.isRequired
+  topics: PropTypes.array.isRequired,
+  topicsLoading: PropTypes.bool.isRequired
 };
 
 export default reduxForm({ form: 'addJob' })(JobForm);

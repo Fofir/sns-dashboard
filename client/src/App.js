@@ -17,6 +17,7 @@ class App extends Component {
             <JobForm
               addJob={this.props.addJob}
               topics={this.props.topics}
+              topicsLoading={this.props.topicsLoading}
             />
           </div>
         </div>
@@ -40,12 +41,14 @@ App.propTypes = {
   addJob: PropTypes.func.isRequired,
   deleteJob: PropTypes.func.isRequired,
   jobs: PropTypes.array.isRequired,
-  topics: PropTypes.array.isRequired
+  topics: PropTypes.array.isRequired,
+  topicsLoading: PropTypes.bool.isRequired
 };
 
 const mapStateToProps = state => ({
   jobs: Object.keys(state.jobs.data).map(id => state.jobs.data[id]),
-  topics: state.topics.data
+  topics: state.topics.data,
+  topicsLoading: state.topics.loading
 });
 
 export default connect(mapStateToProps, actions)(App);

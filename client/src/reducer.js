@@ -1,7 +1,13 @@
 import { combineReducers } from 'redux';
 import actionTypes from './constants/actionTypes';
 
-const actionMap = {
+const mapById = (arr = []) => {
+  return arr.reduce((curr, item) => {
+    return { ...curr, [item._id]: item };
+  }, {});
+}
+
+const topicsActionMap = {
   [actionTypes.TOPICS_FETCH_REQUEST]: (state, action) => {
     return {
       ...state,
@@ -17,6 +23,25 @@ const actionMap = {
   },
   [actionTypes.TOPICS_FETCH_FAILURE]: (state, action) => {
     return { ...state, loading: false };
+  }
+};
+
+const jobsActionMap = {
+  [actionTypes.JOBS_FETCH_REQUEST]: (state, action) => {
+    return {
+      ...state,
+      loading: true
+    };
+  },
+  [actionTypes.JOBS_FETCH_SUCCESS]: (state, action) => {
+    return {
+      ...state,
+      loading: false,
+      data: mapById(action.payload)
+    };
+  },
+  [actionTypes.JOBS_FETCH_FAILURE]: (state, action) => {
+    return { ...state, loading: false };
   },
   [actionTypes.JOB_DELETE_REQUEST]: (state, action) => state,
   [actionTypes.JOB_DELETE_SUCCESS]: (state, action) => state,
@@ -27,16 +52,16 @@ const actionMap = {
 };
 
 const jobs = (state = { loading: false, data: {} }, action) => {
-  if (actionMap[action.type]) {
-    return actionMap[action.type](state, action);
+  if (jobsActionMap[action.type]) {
+    return jobsActionMap[action.type](state, action);
   }
 
   return state;
 };
 
 const topics = (state = { loading: false, data: [] }, action) => {
-  if (actionMap[action.type]) {
-    return actionMap[action.type](state, action);
+  if (topicsActionMap[action.type]) {
+    return topicsActionMap[action.type](state, action);
   }
 
   return state; 

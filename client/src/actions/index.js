@@ -15,3 +15,15 @@ export const fetchTopics = () => (dispatch, getState) => {
     }))
     .catch(err => dispatch({ type: actionTypes.TOPICS_FETCH_FAILURE }))
 }
+
+export const fetchJobs = () => (dispatch, getState) => {
+  dispatch({ type: actionTypes.JOBS_FETCH_REQUEST });
+
+  fetch('/api/jobs')
+    .then(res => res.json())
+    .then(jobs => dispatch({
+      type: actionTypes.JOBS_FETCH_SUCCESS,
+      payload: jobs
+    }))
+    .catch(err => dispatch({ type: actionTypes.JOBS_FETCH_FAILURE }))
+}

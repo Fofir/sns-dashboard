@@ -22,7 +22,7 @@ module.exports = (agenda) => ({
       if (err) {
         return res.send(err);
       };
-      
+
       return res.json(job);
     });
   },
@@ -54,7 +54,7 @@ module.exports = (agenda) => ({
         return res.send(err);
       }
 
-      return res.json(data);
+      return res.json(data.Topics);
     });
   }
 })

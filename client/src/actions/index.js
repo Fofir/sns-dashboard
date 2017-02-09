@@ -9,9 +9,9 @@ export const fetchTopics = () => (dispatch, getState) => {
 
   fetch('/api/topics')
     .then(res => res.json())
-    .then(({ Topics }) => dispatch({
+    .then(topics => dispatch({
       type: actionTypes.TOPICS_FETCH_SUCCESS,
-      payload: Topics
+      payload: topics
     }))
     .catch(err => dispatch({ type: actionTypes.TOPICS_FETCH_FAILURE }))
 };

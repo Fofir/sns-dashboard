@@ -10,11 +10,15 @@ class App extends Component {
 
   render() {
     return (
-      <div>
-        <JobsTable 
-          jobs={this.props.jobs}
-          fetchJobs={this.props.fetchJobs}
-        />
+      <div className="container">
+        <div className="row">
+          <div className="col-md-12">
+            <JobsTable 
+              jobs={this.props.jobs}
+              fetchJobs={this.props.fetchJobs}
+            />
+          </div>
+        </div>
       </div>
     );
   }

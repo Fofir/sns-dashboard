@@ -1,11 +1,12 @@
+const mongodb = require('agenda/node_modules/mongodb');
 const AWS = require('aws-sdk');
 AWS.config.update({region: process.env.AWS_REGION});
-const Job = require('../models/job');
+const AGENDA_NAME = require('../constants').AGENDA_NAME;
 
-module.exports = {
+module.exports = (agenda) => ({
 	// lists all jobs
 	listJobs: (req, res) => {
-  	Job.find(function(err, jobs) {
+  	agenda.jobs({ name: AGENDA_NAME }, function(err, jobs) {
       if (err) {
       	return res.send(err);
       }
@@ -16,35 +17,29 @@ module.exports = {
 
 	// Creates a job 
 	createJob: (req, res) => {
-    const job = new Job();
-    job.name = req.body.name;
-
-    job.save(function(err) {
-      if (err) {
-        return res.send(err);
-      }
-
-      return res.json({ message: 'Job created succesfully' });
-    });
+  	const job = agenda.schedule('in 2 seconds', AGENDA_NAME, req.body);
+     return res.json({ message: 'Job created succesfully', job });
 	},
 
-	// Deletes a job (soft delete)
+	// Deletes a job using Agenda
 	deleteJob: (req, res) => {
-    Job.findById(req.params.id, (err, job) => {
-    	if (err) {
-        return res.send(err);
-    	}
 
-    	job.deleted = true;
+		const _id = mongodb.ObjectID(req.params.id);
+		agenda.jobs({ _id }, (err, jobs) => {
+				if (!jobs || !jobs.length) {
+					return res.send('Not found');
+				}
 
-    	job.save((err) => {
-		    if (err) {
-		    	return res.send(err);
-		    }
+				const job = jobs[0];
 
-	      return res.json({ message: 'Job deleted successfully' });
-	    });
-    });
+				job.remove(function(err) {
+				    if(err) {
+				    	res.send(err);
+				    }
+
+	      		return res.json({ message: 'Job deleted successfully' });
+				})
+		});
 	},
 
 	// Gets all user topics from AWS
@@ -58,4 +53,4 @@ module.exports = {
   		return res.json(data);
   	});
 	}
-}
+})

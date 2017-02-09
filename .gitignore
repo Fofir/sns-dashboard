@@ -39,3 +39,7 @@ Thumbs.db
 # Module Folders #
 ##################
 node_modules
+
+# Env variables #
+#################
+.env
